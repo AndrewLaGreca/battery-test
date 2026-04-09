@@ -1,7 +1,7 @@
 import { fail } from "../utils/fail";
 import type { Battery, ResultPackage } from "../utils/types";
 
-export function systenSafetyTest(b: Battery): ResultPackage {
+export function systemSafetyTest(b: Battery): ResultPackage {
     let resultPackage: ResultPackage = {
         passed: true,
         step: "systemSafety",

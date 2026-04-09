@@ -32,20 +32,20 @@ export function functionalTest(battery: Battery): ResultPackage {
     return resultPackage;
 }
 
-function validateFunction (b: Battery, r: ResultPackage): ResultPackage {
+export function validateFunction (b: Battery, r: ResultPackage): ResultPackage {
     if (b.mode === "idle" && (b.current < -5 || b.current > 5)) {
-        return fail(r, "invalid current at idle");
+        return fail(r, "invalid current in idle mode");
     }
 
-    if (b.mode === "charge" && b.current > 0) {
+    if (b.mode === "charge" && b.current < 0) {
         return fail(r, "invalid current in charge mode");
     }
 
-    if (b.mode === "discharge" && b.current < 0) {
+    if (b.mode === "discharge" && b.current > 0) {
         return fail(r, "invalid current in discharge mode");
     }
 
-    const expectedPower = (b.voltage * b.current) / 1000;
+    const expectedPower = (b.voltage * b.current);
     const tolerance = 0.1;
 
     if (Math.abs(b.power - expectedPower) / Math.abs(expectedPower || 1) > tolerance) {

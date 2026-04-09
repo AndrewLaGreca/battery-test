@@ -9,7 +9,7 @@ export function electricalPerformanceTest(b: Battery): ResultPackage {
     };
 
     // 1. test power for sensor drift
-    const powerExpected = (b.voltage * b.current) / 1000;
+    const powerExpected = (b.voltage * b.current);
 
     const error = Math.abs(powerExpected - b.power);
     const tolerance = 0.10 * Math.abs(powerExpected)

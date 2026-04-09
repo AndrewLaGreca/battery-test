@@ -1,5 +1,7 @@
 import type { Battery, ResultPackage } from "../utils/types";
 import { fail } from "../utils/fail";
+import { getCurrent } from "../simulation/generateBattery";
+import { computerPower } from "../utils/simulateTransition";
 
 interface GridEvent {
     voltageFactor: number;
@@ -66,7 +68,7 @@ export function gridSimulationTest(battery: Battery): ResultPackage {
         }
 
         // 5. Power consistency
-        const expectedPower = (battery.voltage * battery.current) / 1000;
+        const expectedPower = (battery.voltage * battery.current);
 
         if (Math.abs(expectedPower - battery.power) > 0.1 * Math.abs(expectedPower)) {
             return resultPackage = fail(resultPackage, `power mismatch during grid event ${i}`);
@@ -89,21 +91,21 @@ function simulateBatteryResponse(
     // Voltage-based behavior
     if (gridVoltage > 410) {
         battery.mode = "charge";
-        battery.current = 50;
+        battery.current = getCurrent(battery.mode);
     } else if (gridVoltage < 380) {
         battery.mode = "discharge";
-        battery.current = -50;
+        battery.current = getCurrent(battery.mode);
     } else {
         battery.mode = "idle";
-        battery.current = 0;
+        battery.current = getCurrent(battery.mode);;
     }
 
     if (frequencyHz < 59) {
         // Conservative behavior under instability
         battery.mode = "idle";
-        battery.current = 0;
+        battery.current = getCurrent(battery.mode);;
     }
 
     battery.voltage = gridVoltage;
-    battery.power = (battery.voltage * battery.current) / 1000;
+    battery.power = computerPower(battery);
 }

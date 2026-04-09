@@ -21,7 +21,7 @@ export function generateBattery(): Battery {
   };
 
   // Compute power from V * I
-  battery.power = (battery.voltage * battery.current) / 1000;
+  battery.power = (battery.voltage * battery.current);
 
   // Inject failure (~10%)
   if (Math.random() < 0.1) {
@@ -41,8 +41,8 @@ function getWeightedMode(): mode {
 }
 
 export function getCurrent(mode: mode): number {
-  if (mode === "charge") return getRandom(-80, -20);
-  if (mode === "discharge") return getRandom(20, 80);
+  if (mode === "charge") return getRandom(80, 20);
+  if (mode === "discharge") return getRandom(-20, -80);
   return getRandom(-5, 5);
 }
 

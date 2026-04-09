@@ -5,24 +5,19 @@ export function simulateTransition(battery: Battery, targetMode: mode): Battery 
     const b = { ...battery };
 
     b.mode = targetMode;
-
-    let newCurrent = getCurrent(targetMode);
-
-    // Degradation effects
-    if (battery.temperature > 55) {
-        newCurrent *= 0.5; // thermal limiting
-    }
-
-    if (battery.internalResistance > 40) {
-        newCurrent *= 0.7; // poor conduction
-    }
-
-    b.current = newCurrent;
+    b.current = getCurrent(targetMode);
 
     // Recompute power
-    if (!battery.hasSensorDrift) {
-        b.power = (b.voltage * b.current) / 1000;
-    }
+    b.power = computerPower(b);
 
     return b;
+}
+
+export function computerPower(battery: Battery): number {
+    battery.power = (battery.voltage * battery.current);
+    if (battery.hasSensorDrift) {
+        battery.power *= 1.15;
+    }
+
+    return battery.power;
 }
