@@ -43,43 +43,44 @@ Some improvement areas that could enhance the system include, but are not limite
   * This system stops testing upon detection of a single fault. In scenarios where cells are reworked rather than scrapped, it would be preferable to run a full test suite capable of identifying multiple faults. This system does not currently support that behavior.
 
 ## Project Structure
+```
 Battery-Test/
-  node_modules/
-    ...
-  src/
-    pipeline/
-      finalize.ts
-      pipeline.ts
-    simulation/
-      generateBattery.ts
-    tests/
-      electricalPerformance.test.ts
-      electricalPerformance.ts
-      functional.test.ts
-      functional.ts
-      gridSimulation.test.ts
-      gridSimulation.ts
-      manufacturingIntegrity.test.ts
-      manufacturingIntegrity.ts
-      systemSafety.test.ts
-      systemSafety.ts
-    utils/
-      fail.ts
-      simulateTransition.ts
-      type.ts
-    main.ts
-  .gitignore
-  eslint.config.js
-  index.html
-  jest.config.cjs
-  package-lock.json
-  package.json
-  README.md
-  tsconfig.app.json
-  tsconfig.cli.json
-  tsconfig.json
-  tsconfig.node.json
-  vite.config.ts
+├── node_modules/
+├── src/
+│   ├── pipeline/
+│   │   ├── finalize.ts
+│   │   └── pipeline.ts
+│   ├── simulation/
+│   │   └── generateBattery.ts
+│   ├── tests/
+│   │   ├── electricalPerformance.test.ts
+│   │   ├── electricalPerformance.ts
+│   │   ├── functional.test.ts
+│   │   ├── functional.ts
+│   │   ├── gridSimulation.test.ts
+│   │   ├── gridSimulation.ts
+│   │   ├── manufacturingIntegrity.test.ts
+│   │   ├── manufacturingIntegrity.ts
+│   │   ├── systemSafety.test.ts
+│   │   └── systemSafety.ts
+│   ├── utils/
+│   │   ├── fail.ts
+│   │   ├── simulateTransition.ts
+│   │   └── type.ts
+│   └── main.ts
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── jest.config.cjs
+├── package-lock.json
+├── package.json
+├── README.md
+├── tsconfig.app.json
+├── tsconfig.cli.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
 
 More generally:
   * Tests: contains individual test modules and their unit tests
