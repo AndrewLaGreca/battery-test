@@ -31,26 +31,19 @@ export function functionalTest(battery: Battery): ResultPackage {
     return resultPackage;
 }
 
-function validateFunction(
-    b: Battery,
-    r: ResultPackage,
-): ResultPackage {
-    // Idle current check
+function validateFunction (b: Battery, r: ResultPackage): ResultPackage {
     if (b.mode === "idle" && (b.current < -5 || b.current > 5)) {
         return fail(r, "invalid current at idle");
     }
 
-    // Charge current check
     if (b.mode === "charge" && b.current > 0) {
         return fail(r, "invalid current in charge mode");
     }
 
-    // Discharge current check
     if (b.mode === "discharge" && b.current < 0) {
         return fail(r, "invalid current in discharge mode");
     }
 
-    // Power consistency check (with tolerance)
     const expectedPower = (b.voltage * b.current) / 1000;
     const tolerance = 0.1;
 
