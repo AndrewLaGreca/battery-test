@@ -12,7 +12,7 @@ export function manufacturingIntegrityTest(b: Battery): ResultPackage {
     if (b.insulationResistance < 100) {
         return resultPackage = fail(
             resultPackage,
-            `insulation resistance ${b.insulationResistance} MΩ is below threshold of 100 MΩ`
+            `insulation resistance ${b.insulationResistance} mega ohms is below threshold of 100 mega Ohms`
         );
     }
 
