@@ -11,6 +11,8 @@ export interface Battery {
     insulationResistance: number; // mega Ohms
 
     hasSensorDrift: boolean;
+    hasBadWeld: boolean;
+    hasLeak: boolean;
 }
 
 export type tests = "functional" | "electricalPerformance" | "gridSimulation" | "systemSafety" | "manufacturingIntegrity";

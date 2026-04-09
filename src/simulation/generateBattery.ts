@@ -16,6 +16,8 @@ export function generateBattery(): Battery {
     power: 0, // computed below
 
     hasSensorDrift: false,
+    hasBadWeld: false,
+    hasLeak: false,
   };
 
   // Compute power from V * I
