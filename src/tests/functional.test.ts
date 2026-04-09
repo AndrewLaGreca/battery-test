@@ -1,10 +1,6 @@
 import { computerPower, simulateTransition } from "../utils/simulateTransition";
-import type { Battery, mode, ResultPackage } from "../utils/types";
+import { idleMode, dischargeMode, chargeMode, type Battery, type ResultPackage } from "../utils/types";
 import { validateFunction } from "./functional";
-
-const idleMode: mode = "idle";
-const dischargeMode: mode = "discharge";
-const chargeMode: mode = "charge";
 
 const battery = { 
     mode: idleMode,

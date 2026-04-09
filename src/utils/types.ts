@@ -1,5 +1,9 @@
 export type mode = "charge" | "discharge" | "idle";
 
+export const idleMode: mode = "idle";
+export const dischargeMode: mode = "discharge";
+export const chargeMode: mode = "charge";
+
 export interface Battery {
     mode: mode;
     voltage: number; // V
