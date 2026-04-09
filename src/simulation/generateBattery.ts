@@ -14,6 +14,8 @@ export function generateBattery(): Battery {
     temperature: getRandom(25, 40), // C
     insulationResistance: getRandom(100, 500), // mega ohms
     power: 0, // computed below
+
+    hasSensorDrift: false,
   };
 
   // Compute power from V * I
@@ -61,7 +63,8 @@ function injectFailure(battery: Battery, type: FailureType): Battery {
       break;
 
     case "sensorDrift":
-      b.voltage = b.voltage * getRandomFloat(0.85, 1.15);
+      b.power *= 1.15;
+      b.hasSensorDrift = true;
       break;
 
     case "thermalIssue":
@@ -72,8 +75,6 @@ function injectFailure(battery: Battery, type: FailureType): Battery {
       b.insulationResistance = getRandomFloat(0.1, 5);
       break;
   }
-
-  b.power = (b.voltage * b.current) / 1000;
 
   return b;
 }

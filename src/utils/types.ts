@@ -9,6 +9,8 @@ export interface Battery {
     internalResistance: number; // milli Ohms
     temperature: number; // C
     insulationResistance: number; // mega Ohms
+
+    hasSensorDrift: boolean;
 }
 
 export type tests = "functional" | "electricalPerformance" | "gridSimulation" | "systemSafety" | "manufacturingIntegrity";

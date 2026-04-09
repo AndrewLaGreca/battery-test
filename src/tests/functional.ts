@@ -1,5 +1,6 @@
-import type { Battery, mode, ResultPackage } from "../utils/types";
-import { getCurrent } from "../simulation/generateBattery";
+import type { Battery, ResultPackage } from "../utils/types";
+import { simulateTransition } from "../utils/simulateTransition";
+import { fail } from "../utils/fail";
 
 export function functionalTest(battery: Battery): ResultPackage {
     let resultPackage: ResultPackage = {
@@ -52,36 +53,4 @@ function validateFunction (b: Battery, r: ResultPackage): ResultPackage {
     }
 
     return r;
-}
-
-function simulateTransition(battery: Battery, targetMode: mode): Battery {
-    const b = { ...battery };
-
-    b.mode = targetMode;
-
-    let newCurrent = getCurrent(targetMode);
-
-    // Degradation effects
-    if (battery.temperature > 55) {
-        newCurrent *= 0.5; // thermal limiting
-    }
-
-    if (battery.internalResistance > 40) {
-        newCurrent *= 0.7; // poor conduction
-    }
-
-    b.current = newCurrent;
-
-    // Recompute power
-    b.power = (b.voltage * b.current) / 1000;
-
-    return b;
-}
-
-function fail(r: ResultPackage, reason: string): ResultPackage {
-    return {
-        ...r,
-        passed: false,
-        reason,
-    };
 }
