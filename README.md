@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# Manufacturing Battery Test Pipeline
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+*Designed by Andrew LaGreca*
+*Manufacturing Test Engineer Candidacy*
 
-Currently, two official plugins are available:
+## Overview
+This project implements a simulated command-line-based validation system for battery units. It is meant to represent my first-pass at designing and deploying an automated manufacturing test system for battery backup system production.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The pipeline runs a sequence of tests, each designed to validate a specific subsystem or property of the battery, including:
+  * Manufacturing integrity checks (e.g., insulation resistance, temperature)
+  * Electrical performance validation
+  * Functional behavior verification
+  * Grid simulation response testing
+  * System-level safety validation
 
-## React Compiler
+The program executes each test in sequence. If any test fails, the pipeline halts immediately and returns a failure report. If all tests pass, the battery is considered valid.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How to Use
+Prerequisites: Node.js and npm
+  1) Install dependencies via command line: `npm install`
+  2) Run the CLI via command line: `npm run CLI`
+  3) Follow the prompts printed in the terminal
 
-## Expanding the ESLint configuration
+## Expected Behavior
+The program executes all tests in the configured pipeline order. Each test receives the current battery state.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+If a test fails:
+  * Execution stops immediately
+  * The failure reason and failed step are returned
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+If all tests pass:
+  * A success report is printed
+  * All test results are included in the output
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Improvements / Oversights / Faults
+This project contains simplifications and non-physical representations of physical systems. These imperfections stem from intentional design tradeoffs; I aimed to design and deliver this simulation quickly.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Some improvement areas that could enhance the system include, but are not limited to:
+  * There are many ways a production unit might fail. In this system, each unit is simulated, and only a limited set of failure root causes are modeled: badWeld, sensorDrift, thermalIssue, and isolationFault.
+  * Simulated battery units are generally static representations of dynamic systems. While some dynamic behaviors are modeled, such as state transitions and grid responses, these representations are still highly simplified. A real battery would behave much more dynamically under test conditions.
+  * The non-physical representation of this system does not support realistic modeling of key metrics such as reliability and cycle time. While I could have simulated these, I omitted them for simplicity. In real test systems, there is inherent uncertainty, maintenance requirements, and significantly longer cycle times.
+  * In a real production environment, I would design some tests to run in parallel to improve throughput and reduce cycle time. This system does not include parallel test execution.
+  * This system stops testing upon detection of a single fault. In scenarios where cells are reworked rather than scrapped, it would be preferable to run a full test suite capable of identifying multiple faults. This system does not currently support that behavior.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
+Battery-Test/
+  node_modules/
+    ...
+  src/
+    pipeline/
+      finalize.ts
+      pipeline.ts
+    simulation/
+      generateBattery.ts
+    tests/
+      electricalPerformance.test.ts
+      electricalPerformance.ts
+      functional.test.ts
+      functional.ts
+      gridSimulation.test.ts
+      gridSimulation.ts
+      manufacturingIntegrity.test.ts
+      manufacturingIntegrity.ts
+      systemSafety.test.ts
+      systemSafety.ts
+    utils/
+      fail.ts
+      simulateTransition.ts
+      type.ts
+    main.ts
+  .gitignore
+  eslint.config.js
+  index.html
+  jest.config.cjs
+  package-lock.json
+  package.json
+  README.md
+  tsconfig.app.json
+  tsconfig.cli.json
+  tsconfig.json
+  tsconfig.node.json
+  vite.config.ts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+More generally:
+  * Tests: contains individual test modules and their unit tests
+  * Pipeline: contains orchestation logic that defines test order, executes tests, aggregates results, and handles system termination
+  * Utils: contains shared utilities
+  * Simulation: Generates battery instances used as input for tests
