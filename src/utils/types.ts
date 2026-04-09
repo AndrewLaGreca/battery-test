@@ -10,3 +10,11 @@ export interface Battery {
     temperature: number; // C
     insulationResistance: number; // mega Ohms
 }
+
+export type tests = "functional" | "electricalPerformance" | "gridSimulation" | "systemSafety" | "manufacturingIntegrity";
+
+export interface ResultPackage {
+    passed: boolean;
+    step: tests;
+    reason: string;
+}
