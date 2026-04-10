@@ -16,6 +16,10 @@ The pipeline runs a sequence of tests, each designed to validate a specific subs
 The program executes each test in sequence. It returns a failure report if any tests fail. If all tests pass, the battery is considered valid.
 
 ## How to Use
+Via browser:
+  1) Open: https://basebatterytest.netlify.app/
+  2) Press: `Run Test` (this action is repeatable)
+
 Via terminal:
 Prerequisites: Node.js and npm
   1) Install dependencies via command line: `npm install`
