@@ -1,7 +1,7 @@
 # Manufacturing Battery Test Pipeline
 
 *Designed by Andrew LaGreca*
-*for Manufacturing Test Engineer Candidacy*
+*for Manufacturing Test Engineer candidacy*
 
 ## Overview
 This project implements a simulated command-line and user-interface-based validation system for battery units. It is meant to represent my first-pass at designing and deploying an automated manufacturing test system for battery backup system production.
