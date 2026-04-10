@@ -1,6 +1,6 @@
 import { chargeMode, dischargeMode, idleMode, type Battery, type ResultPackage } from "../utils/types";
 import { fail } from "../utils/fail";
-import { computerPower } from "../utils/simulateTransition";
+import { computePower } from "../utils/simulateTransition";
 
 interface GridEvent {
     voltageFactor: number;
@@ -107,5 +107,5 @@ function simulateBatteryResponse(
     }
 
     battery.voltage = gridVoltage;
-    battery.power = computerPower(battery);
+    battery.power = computePower(battery);
 }

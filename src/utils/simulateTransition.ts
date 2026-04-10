@@ -8,16 +8,17 @@ export function simulateTransition(battery: Battery, targetMode: mode): Battery 
     b.current = getCurrent(targetMode);
 
     // Recompute power
-    b.power = computerPower(b);
+    b.power = computePower(b);
 
     return b;
 }
 
-export function computerPower(battery: Battery): number {
-    battery.power = (battery.voltage * battery.current);
+export function computePower(battery: Battery): number {
+    let power = battery.voltage * battery.current;
+
     if (battery.hasSensorDrift) {
-        battery.power *= 1.15;
+        power *= 1.15;
     }
 
-    return battery.power;
+    return power;
 }

@@ -1,4 +1,4 @@
-import { computerPower, simulateTransition } from "../utils/simulateTransition";
+import { computePower, simulateTransition } from "../utils/simulateTransition";
 import { idleMode, dischargeMode, chargeMode, type Battery, type ResultPackage } from "../utils/types";
 import { validateFunction } from "./functional";
 
@@ -82,7 +82,7 @@ describe("fails functional tests", () => {
         // simulate change to charge mode
         b = simulateTransition(b, chargeMode);
         b.current = -1;
-        b.power = computerPower(b); // TODO: the simulation should do this itself, but because simulated transitions failures do not exist in this fidelity model, it's acceptable for now.
+        b.power = computePower(b); // TODO: the simulation should do this itself, but because simulated transitions failures do not exist in this fidelity model, it's acceptable for now.
 
         r = validateFunction(b, r);
         expect(r.passed).toBe(false);
@@ -98,7 +98,7 @@ describe("fails functional tests", () => {
         b = simulateTransition(b, chargeMode);
         b = simulateTransition(b, idleMode); 
         b.current = -6;
-        b.power = computerPower(b); // TODO: the simulation should do this itself, but because simulated transitions failures do not exist in this fidelity model, it's acceptable for now.
+        b.power = computePower(b); // TODO: the simulation should do this itself, but because simulated transitions failures do not exist in this fidelity model, it's acceptable for now.
 
         r = validateFunction(b, r);
 
@@ -114,7 +114,7 @@ describe("fails functional tests", () => {
         // simulate change to charge mode
         b = simulateTransition(b, dischargeMode);
         b.current = 1;
-        b.power = computerPower(b); // TODO: the simulation should do this itself, but because simulated transitions failures do not exist in this fidelity model, it's acceptable for now. 
+        b.power = computePower(b); // TODO: the simulation should do this itself, but because simulated transitions failures do not exist in this fidelity model, it's acceptable for now. 
 
         r = validateFunction(b, r);
 
