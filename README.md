@@ -1,6 +1,6 @@
 # Manufacturing Battery Test Pipeline
 
-*Designed by Andrew LaGreca,*
+*Designed by Andrew LaGreca*
 *for Manufacturing Test Engineer Candidacy*
 
 ## Overview
