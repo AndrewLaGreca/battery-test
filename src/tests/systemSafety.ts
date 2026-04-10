@@ -18,7 +18,7 @@ export function systemSafetyTest(b: Battery): ResultPackage {
 
     // 3. test overvoltage
     if (b.voltage > 395)
-    return resultPackage = fail(resultPackage, `measured voltage ${b.voltage} A exceeds the safe range of 395 V`);
+    return resultPackage = fail(resultPackage, `measured voltage ${b.voltage} V exceeds the safe range of 395 V`);
     
     return resultPackage;
 }
