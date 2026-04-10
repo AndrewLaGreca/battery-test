@@ -1,5 +1,6 @@
 import readline from "readline";
 import { runPipeline } from "./pipeline/pipeline";
+import { generateBattery } from "./simulation/generateBattery";
 
 console.log("Main file executing");
 const rl = readline.createInterface({
@@ -11,7 +12,8 @@ function prompt() {
     rl.question("Enter command (`b` to begin | `e` to exit): ", async (input) => {
         if (input == "b") {
             try {
-                await runPipeline();
+                const b = generateBattery();
+                await runPipeline(b);
             } catch (err) {
                 console.error("Pipeline failed:", err);
             }
