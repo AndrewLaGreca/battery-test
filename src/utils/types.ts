@@ -26,3 +26,10 @@ export interface ResultPackage {
     step: tests;
     reason: string;
 }
+
+export interface ResultReport {
+    state: mode;
+    battery: Battery;
+    results: ResultPackage[];
+    passed: boolean;
+}

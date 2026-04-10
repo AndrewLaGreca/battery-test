@@ -1,4 +1,4 @@
-import type { Battery, ResultPackage } from "../utils/types";
+import { type Battery, type ResultPackage } from "../utils/types";
 
 export function finalize(battery: Battery, results: ResultPackage[]) {
     const allPassed = results.every(r => r.passed);
@@ -8,10 +8,12 @@ export function finalize(battery: Battery, results: ResultPackage[]) {
     console.log("Results:", results);
     console.log("Overall Passed:", allPassed);
 
-    return {
-        state: "idle",
-        battery,
-        results,
+    const resultReport = {
+        state: battery.mode,
+        battery: battery,
+        results: results,
         passed: allPassed,
-    };
+    }
+
+    return resultReport;
 }
