@@ -8,6 +8,8 @@ interface GridEvent {
 }
 
 export function gridSimulationTest(battery: Battery): ResultPackage {
+    const b = { ...battery };
+
     let resultPackage: ResultPackage = {
         passed: true,
         step: "gridSimulation",
@@ -26,10 +28,10 @@ export function gridSimulationTest(battery: Battery): ResultPackage {
         { voltageFactor: 1.0, frequencyHz: 60 },
     ];
 
-    let previousMode = battery.mode;
+    let previousMode = b.mode;
     
     // 1. Voltage stability
-    if (battery.voltage <= 0 || battery.voltage > 1000) {
+    if (b.voltage <= 0 || b.voltage > 1000) {
         return resultPackage = fail(resultPackage, `invalid initial battery voltage during grid event`);
     }
 
@@ -39,41 +41,41 @@ export function gridSimulationTest(battery: Battery): ResultPackage {
         // Simulate grid disturbance
         const gridVoltage = nominalVoltage * event.voltageFactor;
 
-        simulateBatteryResponse(battery, gridVoltage, event.frequencyHz);
+        simulateBatteryResponse(b, gridVoltage, event.frequencyHz);
 
         // Tests continued
         // 2. Mode consistency
-        if (!["idle", "charge", "discharge"].includes(battery.mode)) {
+        if (!["idle", "charge", "discharge"].includes(b.mode)) {
             return resultPackage = fail(resultPackage, `invalid battery mode during grid event ${i}`);
         }
 
         // 3. Transition stability
-        if (previousMode !== battery.mode) {
+        if (previousMode !== b.mode) {
             const validTransition =
-                (previousMode === idleMode && (battery.mode === chargeMode || battery.mode === dischargeMode)) ||
-                (battery.mode === idleMode);
+                (previousMode === idleMode && (b.mode === chargeMode || b.mode === dischargeMode)) ||
+                (b.mode === idleMode);
 
             if (!validTransition) {
-                return resultPackage = fail(resultPackage, `invalid mode transition from ${previousMode} to ${battery.mode}`);
+                return resultPackage = fail(resultPackage, `invalid mode transition from ${previousMode} to ${b.mode}`);
             }
         }
 
         // 4. Frequency response sanity
         if (Math.abs(event.frequencyHz - 60) > 2) {
             // Expect protective or conservative behavior
-            if (battery.mode === dischargeMode && battery.current > 0) {
+            if (b.mode === dischargeMode && b.current > 0) {
                 return resultPackage = fail(resultPackage, `unsafe discharge during frequency disturbance at event ${i}`);
             }
         }
 
         // 5. Power consistency
-        const expectedPower = (battery.voltage * battery.current);
+        const expectedPower = (b.voltage * b.current);
 
-        if (Math.abs(expectedPower - battery.power) > 0.1 * Math.abs(expectedPower)) {
+        if (Math.abs(expectedPower - b.power) > 0.1 * Math.abs(expectedPower)) {
             return resultPackage = fail(resultPackage, `power mismatch during grid event ${i}`);
         }
 
-        previousMode = battery.mode;
+        previousMode = b.mode;
     }
 
     return resultPackage;
